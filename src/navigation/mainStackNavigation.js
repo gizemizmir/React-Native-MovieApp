@@ -1,22 +1,15 @@
 import React, {useContext} from 'react';
-import {Text, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
 
 import SignInScreen from '../screens/signIn';
 import SignUpScreen from '../screens/signUp';
+import MovieDetailsScreen from '../screens/movieDetails';
 import BottomNavigation from './bottomNavigation';
 
 const MainStackNav = createStackNavigator();
-const EmptyScreen = () => {
-  return (
-    <View>
-      <Text>Empty Screen</Text>
-    </View>
-  );
-};
 const MainStackNavigation = () => {
-  const user = null;
+  const user = {};
 
   return (
     <MainStackNav.Navigator
@@ -28,7 +21,7 @@ const MainStackNavigation = () => {
           <MainStackNav.Screen name="BottomNav" component={BottomNavigation} />
           <MainStackNav.Screen
             name="MovieDetails"
-            component={EmptyScreen}
+            component={MovieDetailsScreen}
             options={{
               headerShown: true,
               headerBackTitleVisible: false,
