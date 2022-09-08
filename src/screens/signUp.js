@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -88,13 +88,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginBottom: 5,
     fontSize: 15,
-    fontWeight: 'bold',
-  },
-  pageLabel: {
-    display: 'flex',
-    alignSelf: 'flex-start',
-    marginBottom: 5,
-    fontSize: 30,
     fontWeight: 'bold',
   },
   button: {

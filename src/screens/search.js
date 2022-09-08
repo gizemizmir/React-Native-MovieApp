@@ -23,7 +23,7 @@ const Search = () => {
   // Searching according to the entered text.
   const handleGetMovies = () => {
     SetSearchMovies(null);
-    if (searchText != '') {
+    if (searchText !== '') {
       axios
         .get(
           `https://api.themoviedb.org/3/search/movie?api_key=aea92b0c171765ec9ae69fdf13f31a39&language=en-US&page=1&query=${searchText}`,
@@ -40,16 +40,7 @@ const Search = () => {
   };
 
   const renderTweetSeparatorItem = ({item}) => {
-    return (
-      <View
-        style={[
-          styles.separator,
-          {
-            backgroundColor: '#ccc',
-          },
-        ]}
-      />
-    );
+    return <View style={styles.separator} />;
   };
 
   const renderMovieItem = ({item}) => {
@@ -137,6 +128,7 @@ const styles = StyleSheet.create({
   separator: {
     width: '100%',
     height: 1,
+    backgroundColor: '#ccc',
   },
   searchPageText: {
     display: 'flex',

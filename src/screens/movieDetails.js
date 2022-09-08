@@ -31,7 +31,7 @@ const MovieDetails = () => {
 
   useEffect(() => {
     handleGetMovie();
-    console.log(movie);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const win = Dimensions.get('window');

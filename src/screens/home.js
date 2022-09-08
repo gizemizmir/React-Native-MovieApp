@@ -29,16 +29,7 @@ const Home = () => {
   }, []);
 
   const renderTweetSeparatorItem = ({item}) => {
-    return (
-      <View
-        style={[
-          styles.separator,
-          {
-            backgroundColor: '#ccc',
-          },
-        ]}
-      />
-    );
+    return <View style={styles.separator} />;
   };
 
   const renderMovieItem = ({item}) => {
@@ -94,6 +85,7 @@ const styles = StyleSheet.create({
   separator: {
     width: '100%',
     height: 1,
+    backgroundColor: '#ccc',
   },
   filterButton: {
     padding: 10,

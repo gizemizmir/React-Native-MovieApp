@@ -22,11 +22,13 @@ const ThemeSettings = () => {
         }}
         style={[
           styles.themeButton,
+          // eslint-disable-next-line react-native/no-inline-styles
           {backgroundColor: theme.type === 'light' ? '#14202b' : '#FFF'},
         ]}>
         <Text
           style={[
             styles.colorText,
+            // eslint-disable-next-line react-native/no-inline-styles
             {color: theme.type === 'light' ? '#FFF' : '#14202b'},
           ]}>
           {theme.type === 'light' ? 'Dark' : 'Light'}
