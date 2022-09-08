@@ -11,13 +11,16 @@ import {
 
 import axios from 'axios';
 import IonIcons from 'react-native-vector-icons/dist/Ionicons';
+import {useSelector} from 'react-redux';
 
 import MovieItem from '../components/MovieItem';
 
 const Search = () => {
   const [searchMovies, SetSearchMovies] = useState(null);
   const [searchText, SetSearchText] = useState(null);
+  const theme = useSelector(state => state.theme.activeTheme);
 
+  // Searching according to the entered text.
   const handleGetMovies = () => {
     SetSearchMovies(null);
     if (searchText != '') {
@@ -26,10 +29,12 @@ const Search = () => {
           `https://api.themoviedb.org/3/search/movie?api_key=aea92b0c171765ec9ae69fdf13f31a39&language=en-US&page=1&query=${searchText}`,
         )
         .then(response => {
+          // Setting searched movies
           SetSearchMovies(response.data);
           SetSearchText('');
         });
     } else {
+      // If the search input is empty, giving a alert
       Alert.alert('Alert', 'Type anything for search');
     }
   };
@@ -56,11 +61,16 @@ const Search = () => {
   }, [searchMovies]);
 
   return (
-    <View style={styles.searchContainer}>
+    <View
+      style={[
+        styles.searchContainer,
+        {backgroundColor: theme.backgroundColor},
+      ]}>
       <View style={styles.bottomArea}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, {color: theme.color}]}
           placeholder="Search"
+          placeholderTextColor={theme.color}
           clearButtonMode="always"
           value={searchText}
           onChangeText={text => {
@@ -86,10 +96,14 @@ const Search = () => {
             ItemSeparatorComponent={renderTweetSeparatorItem}
           />
         ) : (
-          <Text style={styles.searchPageText}>Couldn't Find Any Movie</Text>
+          <Text style={[styles.searchPageText, {color: theme.color}]}>
+            Couldn't Find Any Movie
+          </Text>
         )
       ) : (
-        <Text style={styles.searchPageText}>Search Movie</Text>
+        <Text style={[styles.searchPageText, {color: theme.color}]}>
+          Search Movie
+        </Text>
       )}
     </View>
   );

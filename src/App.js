@@ -9,15 +9,21 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Provider} from 'react-redux';
 
 import MainStackNavigation from './navigation/mainStackNavigation';
+import {store} from './store';
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <MainStackNavigation />
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <NavigationContainer>
+          <MainStackNavigation />
+        </NavigationContainer>
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 

@@ -4,12 +4,15 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
 import {ScrollView} from 'react-native-gesture-handler';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import {useSelector} from 'react-redux';
 
 import MovieItem from '../components/MovieItem';
 
 const Home = () => {
+  const theme = useSelector(state => state.theme.activeTheme);
   const [movies, SetMovies] = useState([]);
 
+  // Searching according to the movie genre.
   const handleGetMovies = movieGenre => {
     axios
       .get(
@@ -21,6 +24,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    // Searching according to the top rated movie. For the default movie list on the home
     handleGetMovies('top_rated');
   }, []);
 
@@ -42,7 +46,8 @@ const Home = () => {
   };
 
   return (
-    <View style={styles.homeContainer}>
+    <View
+      style={[styles.homeContainer, {backgroundColor: theme.backgroundColor}]}>
       <ScrollView
         style={styles.filterView}
         horizontal={true}

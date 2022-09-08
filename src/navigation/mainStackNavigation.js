@@ -1,15 +1,17 @@
 import React, {useContext} from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {useSelector} from 'react-redux';
 
+import MovieDetailsScreen from '../screens/movieDetails';
 import SignInScreen from '../screens/signIn';
 import SignUpScreen from '../screens/signUp';
-import MovieDetailsScreen from '../screens/movieDetails';
 import BottomNavigation from './bottomNavigation';
 
 const MainStackNav = createStackNavigator();
 const MainStackNavigation = () => {
   const user = {};
+  const theme = useSelector(state => state.theme.activeTheme);
 
   return (
     <MainStackNav.Navigator
@@ -25,6 +27,12 @@ const MainStackNavigation = () => {
             options={{
               headerShown: true,
               headerBackTitleVisible: false,
+              headerStyle: {
+                backgroundColor: theme.backgroundColor,
+              },
+              headerTitleStyle: {
+                color: theme.color,
+              },
             }}
           />
         </>

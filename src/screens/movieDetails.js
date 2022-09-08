@@ -4,6 +4,7 @@ import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
 
 const MovieDetails = () => {
   const {
@@ -13,6 +14,8 @@ const MovieDetails = () => {
   setOptions({
     title: movieDetails.title,
   });
+
+  const theme = useSelector(state => state.theme.activeTheme);
 
   const [movie, SetMovie] = useState([]);
 
@@ -35,7 +38,8 @@ const MovieDetails = () => {
   const ratio = win.width / 200;
 
   return (
-    <ScrollView style={styles.movieDetails}>
+    <ScrollView
+      style={[styles.movieDetails, {backgroundColor: theme.backgroundColor}]}>
       <Image
         style={{
           width: win.width,
@@ -46,15 +50,23 @@ const MovieDetails = () => {
         }}
       />
       <View style={styles.movieDescription}>
-        <Text style={styles.textTitle}>{movie?.title}</Text>
-        <Text style={styles.textTagline}>"{movie?.tagline}"</Text>
-        <Text style={styles.text}>{movie?.overview}</Text>
-        <Text style={styles.text}>
-          <Text style={styles.textBold}>Realese Date: </Text>
+        <Text style={[styles.textTitle, {color: theme.color}]}>
+          {movie?.title}
+        </Text>
+        <Text style={[styles.textTagline, {color: theme.color}]}>
+          "{movie?.tagline}"
+        </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          {movie?.overview}
+        </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={[styles.textBold, {color: theme.color}]}>
+            Realese Date:{' '}
+          </Text>
           {movie?.release_date}
         </Text>
-        <Text style={styles.text}>
-          <Text style={styles.textBold}>Rating: </Text>
+        <Text style={[styles.text, {color: theme.color}]}>
+          <Text style={[styles.textBold, {color: theme.color}]}>Rating: </Text>
           {movie?.vote_average}
         </Text>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

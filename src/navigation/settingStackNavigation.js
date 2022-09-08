@@ -1,37 +1,58 @@
 import React from 'react';
-import {Text, View} from 'react-native';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {useSelector} from 'react-redux';
 
-const EmptyScreen = () => {
-  return (
-    <View>
-      <Text>Empty Screen</Text>
-    </View>
-  );
-};
+import ProfileSettingsScreen from '../screens/profileSettings';
+import SettingsScreen from '../screens/settings';
+import ThemeSettingsScreen from '../screens/themeSettings';
 
 const SettingsStackNav = createStackNavigator();
 const SettingsStackNavigation = () => {
+  const theme = useSelector(state => state.theme.activeTheme);
+
   return (
     <SettingsStackNav.Navigator
       screenOptions={{
         headerShown: true,
       }}>
       <SettingsStackNav.Screen
-        name="Setting"
-        component={EmptyScreen}
-        options={{}}
+        name="Settings"
+        component={SettingsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: theme.backgroundColor,
+          },
+          headerTitleStyle: {
+            color: theme.color,
+          },
+        }}
       />
       <SettingsStackNav.Screen
         name="ThemeSettingsScreen"
-        component={EmptyScreen}
-        options={{}}
+        component={ThemeSettingsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: theme.backgroundColor,
+          },
+          headerTitleStyle: {
+            color: theme.color,
+          },
+          headerTitle: 'Theme Setting',
+        }}
       />
       <SettingsStackNav.Screen
         name="ProfileSettingsScreen"
-        component={EmptyScreen}
-        options={{}}
+        component={ProfileSettingsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: theme.backgroundColor,
+          },
+          headerTitleStyle: {
+            color: theme.color,
+          },
+          headerTitle: 'Profile Setting',
+        }}
       />
     </SettingsStackNav.Navigator>
   );
