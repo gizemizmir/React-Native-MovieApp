@@ -15,6 +15,7 @@ const MainStackNavigation = () => {
 
   return (
     <MainStackNav.Navigator
+      initialRouteName={'BottomNav'}
       screenOptions={{
         headerShown: false,
       }}>

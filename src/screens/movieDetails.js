@@ -10,10 +10,11 @@ const MovieDetails = () => {
   const {
     params: {movieDetails},
   } = useRoute();
-  const {setOptions} = useNavigation();
-  setOptions({
-    title: movieDetails.title,
-  });
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({title: movieDetails.title});
+  }, []);
 
   const theme = useSelector(state => state.theme.activeTheme);
 
