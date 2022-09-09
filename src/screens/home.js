@@ -4,13 +4,15 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import axios from 'axios';
 import {ScrollView} from 'react-native-gesture-handler';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import MovieItem from '../components/MovieItem';
+import {setMovies} from '../store';
 
 const Home = () => {
   const theme = useSelector(state => state.theme.activeTheme);
-  const [movies, SetMovies] = useState([]);
+  const movies = useSelector(state => state.movies.movieItems);
+  const dispatch = useDispatch();
 
   // Searching according to the movie genre.
   const handleGetMovies = movieGenre => {
@@ -19,7 +21,7 @@ const Home = () => {
         `https://api.themoviedb.org/3/movie/${movieGenre}?api_key=aea92b0c171765ec9ae69fdf13f31a39&language=en-US&page=1`,
       )
       .then(response => {
-        SetMovies(response.data.results);
+        dispatch(setMovies({movies: response.data.results}));
       });
   };
 
@@ -28,7 +30,7 @@ const Home = () => {
     handleGetMovies('top_rated');
   }, []);
 
-  const renderTweetSeparatorItem = ({item}) => {
+  const renderMovieSeparatorItem = () => {
     return <View style={styles.separator} />;
   };
 
@@ -68,7 +70,7 @@ const Home = () => {
         data={movies}
         renderItem={renderMovieItem}
         keyExtractor={(item, index) => `movie-${item.id}`}
-        ItemSeparatorComponent={renderTweetSeparatorItem}
+        ItemSeparatorComponent={renderMovieSeparatorItem}
       />
     </View>
   );
@@ -88,13 +90,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ccc',
   },
   filterButton: {
-    padding: 10,
     backgroundColor: '#ececec',
     margin: 10,
     borderRadius: 5,
   },
   filterText: {
-    padding: 5,
+    paddingHorizontal: 10,
+    lineHeight: 35,
   },
 });
 

@@ -18,10 +18,26 @@ const themeSlice = createSlice({
   },
 });
 
+const movieSlice = createSlice({
+  name: 'movies',
+  initialState: {
+    movieItems: [],
+  },
+  reducers: {
+    setMovies: (state, action) => {
+      const {movies} = action.payload;
+      return {
+        movieItems: movies,
+      };
+    },
+  },
+});
 export const {toggleTheme} = themeSlice.actions;
+export const {setMovies} = movieSlice.actions;
 
 export const store = configureStore({
   reducer: combineReducers({
     theme: themeSlice.reducer,
+    movies: movieSlice.reducer,
   }),
 });
