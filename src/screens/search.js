@@ -11,18 +11,20 @@ import {
 
 import axios from 'axios';
 import IonIcons from 'react-native-vector-icons/dist/Ionicons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import MovieItem from '../components/MovieItem';
+import {setSearchMovies} from '../store';
 
 const Search = () => {
-  const [searchMovies, SetSearchMovies] = useState(null);
   const [searchText, SetSearchText] = useState(null);
   const theme = useSelector(state => state.theme.activeTheme);
+  const searchMovies = useSelector(state => state.search.searchMovies);
+  const dispatch = useDispatch();
 
   // Searching according to the entered text.
   const handleGetMovies = () => {
-    SetSearchMovies(null);
+    dispatch(setSearchMovies({}));
     if (searchText !== '') {
       axios
         .get(
@@ -30,7 +32,7 @@ const Search = () => {
         )
         .then(response => {
           // Setting searched movies
-          SetSearchMovies(response.data);
+          dispatch(setSearchMovies({search: response.data}));
           SetSearchText('');
         });
     } else {
@@ -39,7 +41,7 @@ const Search = () => {
     }
   };
 
-  const renderTweetSeparatorItem = ({item}) => {
+  const renderMovieSeparatorItem = () => {
     return <View style={styles.separator} />;
   };
 
@@ -84,7 +86,7 @@ const Search = () => {
             data={searchMovies.results}
             renderItem={renderMovieItem}
             keyExtractor={(item, index) => `movie-${item.id}`}
-            ItemSeparatorComponent={renderTweetSeparatorItem}
+            ItemSeparatorComponent={renderMovieSeparatorItem}
           />
         ) : (
           <Text style={[styles.searchPageText, {color: theme.color}]}>
