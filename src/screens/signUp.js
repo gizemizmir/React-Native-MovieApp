@@ -8,12 +8,51 @@ import {
   View,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import {useDispatch} from 'react-redux';
+
+import {setAuth} from '../store';
+
 const SignUp = () => {
+  const dispatch = useDispatch();
+
   const state = {
     email: '',
     username: '',
     password: '',
-    isLogin: true,
+  };
+
+  const handlePostUser = () => {
+    // post user json-server
+    axios
+      .post('http://localhost:3000/users', {
+        email: state.email,
+        username: state.username,
+        password: state.password,
+        avatar: 'https://i.pravatar.cc/150',
+      })
+      .then(response => {
+        if (response.status === 201) {
+          // Save user AsyncStorage
+          storeData(response.data);
+          // Get user AsyncStorage to save in Global State
+          getData();
+        }
+      });
+  };
+
+  const storeData = async data => {
+    // Save user AsyncStorage
+    await AsyncStorage.setItem('user', JSON.stringify(data));
+  };
+
+  const getData = async () => {
+    const jsonValue = await AsyncStorage.getItem('user');
+    if (jsonValue != null) {
+      // Incoming data is saved to Global State
+      dispatch(setAuth({auth: JSON.parse(jsonValue)}));
+    }
   };
 
   return (
@@ -52,7 +91,7 @@ const SignUp = () => {
             state.password = text;
           }}
         />
-        <Pressable style={styles.button} onPress={{}}>
+        <Pressable style={styles.button} onPress={handlePostUser}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </Pressable>
       </View>

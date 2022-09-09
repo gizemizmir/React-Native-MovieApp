@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Alert,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -8,15 +9,58 @@ import {
   View,
 } from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import {useDispatch} from 'react-redux';
+
+import {setAuth} from '../store';
 
 const SignIn = () => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
 
   const state = {
     username: '',
     password: '',
-    isLogin: true,
+  };
+
+  const handleLogin = () => {
+    // get user from json server by username
+    axios
+      .get(`http://localhost:3000/users?username=${state.username}`)
+      .then(response => {
+        console.log('RESPONSE', response.data);
+        if (response.status === 200 && response.data.length > 0) {
+          // Password check
+          if (response.data?.[0]?.password === state.password) {
+            // Save user AsyncStorage
+            storeData(response.data[0]);
+            // Get user AsyncStorage to save in Global State
+            getData();
+          } else {
+            Alert.alert('Wrong password!');
+          }
+        } else {
+          Alert.alert('User not found!');
+        }
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  };
+
+  const storeData = async data => {
+    // Save user AsyncStorage
+    await AsyncStorage.setItem('user', JSON.stringify(data));
+  };
+
+  const getData = async () => {
+    const jsonValue = await AsyncStorage.getItem('user');
+    if (jsonValue != null) {
+      // Incoming data is saved to Global State
+      dispatch(setAuth({auth: JSON.parse(jsonValue)}));
+    }
   };
 
   return (
@@ -39,7 +83,7 @@ const SignIn = () => {
             state.password = text;
           }}
         />
-        <Pressable style={styles.button} onPress={{}}>
+        <Pressable style={styles.button} onPress={handleLogin}>
           <Text style={styles.buttonText}>Sign In</Text>
         </Pressable>
         <Text style={styles.signupLabel}>Don't have an account?</Text>

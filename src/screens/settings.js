@@ -1,14 +1,24 @@
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {setAuth} from '../store';
 
 const Settings = () => {
   const {navigate} = useNavigation();
+  const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.activeTheme);
+  const user = useSelector(state => state.auth.authUser);
 
-  const handleLogout = () => {};
+  const handleLogout = async () => {
+    // Remove user from AsyncStorage
+    await AsyncStorage.removeItem('user');
+    // Remove user from Global State
+    dispatch(setAuth({}));
+  };
 
   return (
     <View
@@ -16,10 +26,7 @@ const Settings = () => {
         styles.settingContainer,
         {backgroundColor: theme?.backgroundColor},
       ]}>
-      <Image
-        style={styles.profileImage}
-        source={{uri: 'https://i.pravatar.cc/300?img=20'}}
-      />
+      <Image style={styles.profileImage} source={{uri: user?.avatar}} />
       <Pressable
         style={styles.settingButton}
         onPress={() => {

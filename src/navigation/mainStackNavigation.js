@@ -10,15 +10,16 @@ import BottomNavigation from './bottomNavigation';
 
 const MainStackNav = createStackNavigator();
 const MainStackNavigation = () => {
-  const user = {};
   const theme = useSelector(state => state.theme.activeTheme);
+  const authUser = useSelector(state => state.auth.authUser);
 
   return (
     <MainStackNav.Navigator
       screenOptions={{
         headerShown: false,
       }}>
-      {user ? (
+      {authUser && Object.keys(authUser).length != 0 ? (
+        // Check there is a registered user in State
         <>
           <MainStackNav.Screen name="BottomNav" component={BottomNavigation} />
           <MainStackNav.Screen
