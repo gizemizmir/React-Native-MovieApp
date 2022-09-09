@@ -47,14 +47,32 @@ const searchSlice = createSlice({
     },
   },
 });
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    authUser: {},
+  },
+  reducers: {
+    setAuth: (state, action) => {
+      const {auth} = action.payload;
+      return {
+        authUser: auth,
+      };
+    },
+  },
+});
+
 export const {toggleTheme} = themeSlice.actions;
 export const {setMovies} = movieSlice.actions;
 export const {setSearchMovies} = searchSlice.actions;
+export const {setAuth} = authSlice.actions;
 
 export const store = configureStore({
   reducer: combineReducers({
     theme: themeSlice.reducer,
     movies: movieSlice.reducer,
     search: searchSlice.reducer,
+    auth: authSlice.reducer,
   }),
 });
