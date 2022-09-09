@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Alert,
   Pressable,
@@ -19,21 +19,18 @@ import {setAuth} from '../store';
 const SignIn = () => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
-
-  const state = {
-    username: '',
-    password: '',
-  };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     // get user from json server by username
     axios
-      .get(`http://localhost:3000/users?username=${state.username}`)
+      .get(`http://localhost:3000/users?username=${username}`)
       .then(response => {
         console.log('RESPONSE', response.data);
         if (response.status === 200 && response.data.length > 0) {
           // Password check
-          if (response.data?.[0]?.password === state.password) {
+          if (response.data?.[0]?.password === password) {
             // Save user AsyncStorage
             storeData(response.data[0]);
             // Get user AsyncStorage to save in Global State
@@ -71,16 +68,18 @@ const SignIn = () => {
         <TextInput
           style={styles.input}
           label="username"
+          value={username}
           onChangeText={text => {
-            state.username = text;
+            setUsername(text);
           }}
         />
         <Text style={styles.inputLabel}>Password</Text>
         <TextInput
           style={styles.input}
           label="password"
+          value={password}
           onChangeText={text => {
-            state.password = text;
+            setPassword(text);
           }}
         />
         <Pressable style={styles.button} onPress={handleLogin}>

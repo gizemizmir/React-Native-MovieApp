@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,6 +14,14 @@ const ProfileSettings = () => {
   const dispatch = useDispatch();
   const {navigate} = useNavigation();
 
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    setEmail(user?.email);
+    setUsername(user?.username);
+  }, []);
+
   const state = {
     email: user?.email,
     username: user?.username,
@@ -23,8 +31,8 @@ const ProfileSettings = () => {
     // update user from json server by ID
     axios
       .put(`http://localhost:3000/users/${user.id}`, {
-        email: state.email,
-        username: state.username,
+        email: email,
+        username: username,
         password: user?.password,
       })
       .then(response => {
@@ -62,20 +70,18 @@ const ProfileSettings = () => {
         <TextInput
           style={[styles.input, {color: theme.color}]}
           label="email"
-          placeholder={user?.email}
-          placeholderTextColor={theme.greyText}
+          value={email}
           onChangeText={text => {
-            state.email = text;
+            setEmail(text);
           }}
         />
         <Text style={[styles.inputLabel, {color: theme.color}]}>Username</Text>
         <TextInput
           style={[styles.input, {color: theme.color}]}
           label="userName"
-          placeholder={user?.username}
-          placeholderTextColor={theme.greyText}
+          value={username}
           onChangeText={text => {
-            state.username = text;
+            setUsername(text);
           }}
         />
         <Pressable style={styles.button} onPress={handleUpdate}>

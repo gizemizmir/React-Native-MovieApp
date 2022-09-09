@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   SafeAreaView,
@@ -16,6 +16,10 @@ import {setAuth} from '../store';
 
 const SignUp = () => {
   const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [againPassword, setAgainPassword] = useState('');
 
   const state = {
     email: '',
@@ -27,9 +31,9 @@ const SignUp = () => {
     // post user json-server
     axios
       .post('http://localhost:3000/users', {
-        email: state.email,
-        username: state.username,
-        password: state.password,
+        email: email,
+        username: username,
+        password: password,
       })
       .then(response => {
         if (response.status === 201) {
@@ -62,32 +66,36 @@ const SignUp = () => {
         <TextInput
           style={styles.input}
           label="email"
+          value={email}
           onChangeText={text => {
-            state.email = text;
+            setEmail(text);
           }}
         />
         <Text style={styles.inputLabel}>Username</Text>
         <TextInput
           style={styles.input}
           label="userName"
+          value={username}
           onChangeText={text => {
-            state.username = text;
+            setUsername(text);
           }}
         />
         <Text style={styles.inputLabel}>Password</Text>
         <TextInput
           style={styles.input}
           label="password"
+          value={password}
           onChangeText={text => {
-            state.password = text;
+            setPassword(text);
           }}
         />
         <Text style={styles.inputLabel}>Password Again</Text>
         <TextInput
           style={styles.input}
           label="passwordAgain"
+          value={againPassword}
           onChangeText={text => {
-            state.password = text;
+            setAgainPassword(text);
           }}
         />
         <Pressable style={styles.button} onPress={handlePostUser}>
