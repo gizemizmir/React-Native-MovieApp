@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 
 import axios from 'axios';
@@ -25,9 +25,10 @@ const Home = () => {
       });
   };
 
+  // Searching according to the top rated movie. For the default movie list on the home
   useEffect(() => {
-    // Searching according to the top rated movie. For the default movie list on the home
     handleGetMovies('top_rated');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const renderMovieSeparatorItem = () => {

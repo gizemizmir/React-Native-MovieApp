@@ -18,7 +18,7 @@ const MainStackNavigation = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      {authUser && Object.keys(authUser).length != 0 ? (
+      {authUser && Object.keys(authUser).length !== 0 ? (
         // Check there is a registered user in State
         <>
           <MainStackNav.Screen name="BottomNav" component={BottomNavigation} />
