@@ -30,7 +30,6 @@ const SignUp = () => {
         email: state.email,
         username: state.username,
         password: state.password,
-        avatar: 'https://i.pravatar.cc/150',
       })
       .then(response => {
         if (response.status === 201) {

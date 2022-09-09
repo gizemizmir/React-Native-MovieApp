@@ -11,7 +11,6 @@ const Settings = () => {
   const {navigate} = useNavigation();
   const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.activeTheme);
-  const user = useSelector(state => state.auth.authUser);
 
   const handleLogout = async () => {
     // Remove user from AsyncStorage
@@ -26,7 +25,10 @@ const Settings = () => {
         styles.settingContainer,
         {backgroundColor: theme?.backgroundColor},
       ]}>
-      <Image style={styles.profileImage} source={{uri: user?.avatar}} />
+      <Image
+        style={styles.profileImage}
+        source={{uri: 'https://i.pravatar.cc/150'}}
+      />
       <Pressable
         style={styles.settingButton}
         onPress={() => {
